@@ -15,9 +15,11 @@ class inputmap:
 
         self.map_itself = [list(a.strip()) for a in mapfile.readlines()]
 
+# Função para encontrar no mapa um determinado char
 def search_square(map, map_size, square):
 
-    for j in range(map_size[0]):
-        for i in range(map_size[1]):
+    for j in range(map_size[1]):
+        for i in range(map_size[0]):
+            #print("[" + str(i) + ", " + str(j) + "]")
             if map[i][j] == square:
                 return [i, j]
