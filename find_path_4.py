@@ -1,48 +1,45 @@
-from lin_verif_3 import *
+from lin_verif_4 import *
 
 # Função para obter o primero caminho gerado pelo algoritmo de busca em largura
 
-def find_path_3(init, end, map, map_size):
+def find_path_4(init, end, map, map_size):
 
     # Iniciando as variáveis e valores
     agenda = []
     paths = []
-    weghts = [sum(map_size)+1]
-    paths_weghts = [0]
+    weghts = [[0, sum(map_size)+1]]
     paths.append([init])
     #print("paths: " + str(paths))
     #j = 0
 
-    while map[paths[0][-1][0]][paths[0][-1][1]] != '$':
-    #for teste in range(13):
+    #while map[paths[0][-1][0]][paths[0][-1][1]] != '$':
+    for teste in range(5):
 
         agenda_aux = []
         weghts_aux = []
         found_point = 0
 
-        # Verificação para cima
-        a = lin_verif_3(paths[0][-1], map, map_size, -1, 0, end)
-        if a != None:               # Se a resposta é válida
-            agenda_aux.append([a[0], a[1]])
-            weghts_aux.append(a[2])
+        print(weghts[0][0])
 
-        # Verificação para a direita
-        a = lin_verif_3(paths[0][-1], map, map_size, 0, 1, end)
+        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, -1, 0, end)
         if a != None:               # Se a resposta é válida
             agenda_aux.append([a[0], a[1]])
-            weghts_aux.append(a[2])
+            weghts_aux.append([a[2], a[3]])
 
-        # Verificação para baixo
-        a = lin_verif_3(paths[0][-1], map, map_size, 1, 0, end)
+        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, 0, 1, end)
         if a != None:               # Se a resposta é válida
             agenda_aux.append([a[0], a[1]])
-            weghts_aux.append(a[2])
+            weghts_aux.append([a[2], a[3]])
 
-        # Verificação para a esquerda
-        a = lin_verif_3(paths[0][-1], map, map_size, 0, -1, end)
+        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, 1, 0, end)
         if a != None:               # Se a resposta é válida
             agenda_aux.append([a[0], a[1]])
-            weghts_aux.append(a[2])
+            weghts_aux.append([a[2], a[3]])
+
+        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, 0, -1, end)
+        if a != None:               # Se a resposta é válida
+            agenda_aux.append([a[0], a[1]])
+            weghts_aux.append([a[2], a[3]])
 
         print("<loop> agenda_aux:" + str(agenda_aux))
         print("<loop> weghts_aux:" + str(weghts_aux))
@@ -66,13 +63,13 @@ def find_path_3(init, end, map, map_size):
                     if agenda_aux[i] == paths[j][k]:
                         repeated = 1
 
-            print("repeated = " + str(repeated))
+            #print("repeated = " + str(repeated))
             if repeated == 0:
                 j = 0
                 found_point = 1
                 #agenda.append([paths[0][j] for j in range(len(paths[0]))] + [agenda_aux[i]])
                 for j in range(len(weghts)):
-                    if weghts_aux[i] < weghts[j]:
+                    if sum(weghts_aux[i]) < sum(weghts[j]):
                         weghts.insert(j, weghts_aux[i])
                         agenda.insert(j, [paths[0][j] for j in range(len(paths[0]))] + [agenda_aux[i]])
                         break
@@ -82,12 +79,9 @@ def find_path_3(init, end, map, map_size):
 
         if found_point == 1:
             paths.pop(0)
-            paths_weghts.pop(0)
         paths.insert(0, [agenda[0][j] for j in range(len(agenda[0]))])
-        paths_weghts.insert(0, weghts[0])
 
         print("paths: " + str(paths))
-        print("paths_weghts: " + str(paths_weghts))
 
         agenda.pop(0)
         weghts.pop(0)

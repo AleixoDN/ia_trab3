@@ -2,6 +2,7 @@ from inputmap import *
 from find_path_1 import *
 from find_path_2 import *
 from find_path_3 import *
+from find_path_4 import *
 from graphic import *
 
 # ARQUIVO PRINCIPAL da busca em profundidade
@@ -55,3 +56,15 @@ print(">> Busca Best-First")
 
 # Desenha a resposta do algoritmo
 graphic_map_3 = graphic(map.map_itself, map.map_size, paths, agenda)
+
+# BUSCA A*
+# h(t) como distancia de Manhattan
+# Função que retorna o primeiro caminho encontrado
+[paths, agenda] = find_path_4(init, end, map.map_itself, map.map_size)
+
+print(">> Busca A*")
+#print("Caminhos: " + str(paths))
+#print("Agenda: " + str(agenda))
+
+# Desenha a resposta do algoritmo
+#graphic_map_4 = graphic(map.map_itself, map.map_size, paths, agenda)
