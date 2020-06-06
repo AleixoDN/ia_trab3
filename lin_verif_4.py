@@ -6,7 +6,7 @@ def lin_verif_4(pos, g, map, map_size, i, j, end):
 
     # Calculo do limite do for baseado na direção da analise
     upper_limit = int(map_size[0]*i*(1+i)/2 + map_size[1]*j*(1+j)/2 + (-i)*pos[0] + (-j)*pos[1] + 1*(1-i)*(1-j)/2)
-    print(">> " + str(upper_limit))
+    #print(">> " + str(upper_limit))
     for k in range(1, upper_limit):
 
         if map[pos[0] + i*k][pos[1] + j*k] == '*':

@@ -17,7 +17,6 @@ init = search_square(map.map_itself, map.map_size, '#')
 
 # Encontro a posição do objetivo para calculo das heuristicas
 end = search_square(map.map_itself, map.map_size, '$')
-print(end)
 
 
 # BUSCA EM PROFUNDIDADE
@@ -67,4 +66,4 @@ print(">> Busca A*")
 #print("Agenda: " + str(agenda))
 
 # Desenha a resposta do algoritmo
-#graphic_map_4 = graphic(map.map_itself, map.map_size, paths, agenda)
+graphic_map_4 = graphic(map.map_itself, map.map_size, paths, agenda)

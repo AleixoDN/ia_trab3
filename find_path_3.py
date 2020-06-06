@@ -8,7 +8,6 @@ def find_path_3(init, end, map, map_size):
     agenda = []
     paths = []
     weghts = [sum(map_size)+1]
-    paths_weghts = [0]
     paths.append([init])
     #print("paths: " + str(paths))
     #j = 0
@@ -44,15 +43,15 @@ def find_path_3(init, end, map, map_size):
             agenda_aux.append([a[0], a[1]])
             weghts_aux.append(a[2])
 
-        print("<loop> agenda_aux:" + str(agenda_aux))
-        print("<loop> weghts_aux:" + str(weghts_aux))
+        #print("<loop> agenda_aux:" + str(agenda_aux))
+        #print("<loop> weghts_aux:" + str(weghts_aux))
 
         # Alocação dos pontos obtidos
         for i in range(len(agenda_aux)):
             repeated = 0
-            print("paths[0]: " + str(paths[0]))
-            print("a[i]: " + str(agenda_aux[i]))
-            print("w: " + str(weghts_aux[i]))
+            #print("paths[0]: " + str(paths[0]))
+            #print("a[i]: " + str(agenda_aux[i]))
+            #print("w: " + str(weghts_aux[i]))
 
             for j in range(len(agenda)):
                 for k in range(len(agenda[j])):
@@ -66,7 +65,7 @@ def find_path_3(init, end, map, map_size):
                     if agenda_aux[i] == paths[j][k]:
                         repeated = 1
 
-            print("repeated = " + str(repeated))
+            #print("repeated = " + str(repeated))
             if repeated == 0:
                 j = 0
                 found_point = 1
@@ -77,22 +76,19 @@ def find_path_3(init, end, map, map_size):
                         agenda.insert(j, [paths[0][j] for j in range(len(paths[0]))] + [agenda_aux[i]])
                         break
 
-        print("Agenda depois da analise: " + str(agenda) + "(ponto encontrado = " + str(found_point) + ")")
-        print("Pesos depois da analise: " + str(weghts))
+        #print("Agenda depois da analise: " + str(agenda) + "(ponto encontrado = " + str(found_point) + ")")
+        #print("Pesos depois da analise: " + str(weghts))
 
         if found_point == 1:
             paths.pop(0)
-            paths_weghts.pop(0)
         paths.insert(0, [agenda[0][j] for j in range(len(agenda[0]))])
-        paths_weghts.insert(0, weghts[0])
 
-        print("paths: " + str(paths))
-        print("paths_weghts: " + str(paths_weghts))
+        #print("paths: " + str(paths))
 
         agenda.pop(0)
         weghts.pop(0)
-        print("Agenda depois alocação no paths: " + str(agenda))
-        print("Pesos depois alocação no paths: " + str(weghts))
+        #print("Agenda depois alocação no paths: " + str(agenda))
+        #print("Pesos depois alocação no paths: " + str(weghts))
 
     return [paths, agenda]
 

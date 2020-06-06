@@ -9,47 +9,46 @@ def find_path_4(init, end, map, map_size):
     paths = []
     weghts = [[0, sum(map_size)+1]]
     paths.append([init])
+    g_now = 0
     #print("paths: " + str(paths))
     #j = 0
 
-    #while map[paths[0][-1][0]][paths[0][-1][1]] != '$':
-    for teste in range(5):
+    while map[paths[0][-1][0]][paths[0][-1][1]] != '$':
+    #for teste in range(3):
 
         agenda_aux = []
         weghts_aux = []
         found_point = 0
 
-        print(weghts[0][0])
-
-        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, -1, 0, end)
+        a = lin_verif_4(paths[0][-1], g_now, map, map_size, -1, 0, end)
         if a != None:               # Se a resposta é válida
             agenda_aux.append([a[0], a[1]])
             weghts_aux.append([a[2], a[3]])
 
-        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, 0, 1, end)
+        a = lin_verif_4(paths[0][-1], g_now, map, map_size, 0, 1, end)
         if a != None:               # Se a resposta é válida
             agenda_aux.append([a[0], a[1]])
             weghts_aux.append([a[2], a[3]])
 
-        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, 1, 0, end)
+        a = lin_verif_4(paths[0][-1], g_now, map, map_size, 1, 0, end)
         if a != None:               # Se a resposta é válida
             agenda_aux.append([a[0], a[1]])
             weghts_aux.append([a[2], a[3]])
 
-        a = lin_verif_4(paths[0][-1], weghts[0][0], map, map_size, 0, -1, end)
+        a = lin_verif_4(paths[0][-1], g_now, map, map_size, 0, -1, end)
         if a != None:               # Se a resposta é válida
             agenda_aux.append([a[0], a[1]])
             weghts_aux.append([a[2], a[3]])
 
-        print("<loop> agenda_aux:" + str(agenda_aux))
-        print("<loop> weghts_aux:" + str(weghts_aux))
+        #print("<loop> agenda_aux:" + str(agenda_aux))
+        #print("<loop> weghts_aux:" + str(weghts_aux))
 
         # Alocação dos pontos obtidos
         for i in range(len(agenda_aux)):
             repeated = 0
-            print("paths[0]: " + str(paths[0]))
-            print("a[i]: " + str(agenda_aux[i]))
-            print("w: " + str(weghts_aux[i]))
+            #print("paths[0]: " + str(paths[0]))
+            #print("a[i]: " + str(agenda_aux[i]))
+            #print("w: " + str(weghts_aux[i]))
 
             for j in range(len(agenda)):
                 for k in range(len(agenda[j])):
@@ -74,19 +73,20 @@ def find_path_4(init, end, map, map_size):
                         agenda.insert(j, [paths[0][j] for j in range(len(paths[0]))] + [agenda_aux[i]])
                         break
 
-        print("Agenda depois da analise: " + str(agenda) + "(ponto encontrado = " + str(found_point) + ")")
-        print("Pesos depois da analise: " + str(weghts))
+        #print("Agenda depois da analise: " + str(agenda) + "(ponto encontrado = " + str(found_point) + ")")
+        #print("Pesos depois da analise: " + str(weghts))
 
         if found_point == 1:
             paths.pop(0)
         paths.insert(0, [agenda[0][j] for j in range(len(agenda[0]))])
 
-        print("paths: " + str(paths))
+        #print("paths: " + str(paths))
 
         agenda.pop(0)
+        g_now = weghts[0][0]
         weghts.pop(0)
-        print("Agenda depois alocação no paths: " + str(agenda))
-        print("Pesos depois alocação no paths: " + str(weghts))
+        #print("Agenda depois alocação no paths: " + str(agenda))
+        #print("Pesos depois alocação no paths: " + str(weghts))
 
     return [paths, agenda]
 
