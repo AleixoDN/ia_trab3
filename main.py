@@ -1,6 +1,7 @@
 from inputmap import *
 from find_path_1 import *
 from graphic import *
+from find_path_2 import *
 
 # ARQUIVO PRINCIPAL da busca em profundidade
 
@@ -12,10 +13,27 @@ map = inputmap()
 # Encontro no mapa a casa de início
 init = search_square(map.map_itself, map.map_size, '#')
 
+
+# BUSCA EM PROFUNDIDADE
+
 # Função que retorna o primeiro caminho encontrado
 [paths, agenda] = find_path_1(init, map.map_itself, map.map_size)
 
+#print(">> Busca em profundidade")
+#print("Caminhos: " + str(paths))
+#print("Agenda: " + str(agenda))
+
+# Desenha a resposta do algoritmo
+graphic_map_1 = graphic(map.map_itself, map.map_size, paths, agenda)
+
+
+# BUSCA EM LARGURA
+# Função que retorna o primeiro caminho encontrado
+[paths, agenda] = find_path_2(init, map.map_itself, map.map_size)
+
+print(">> Busca em largura")
 print("Caminhos: " + str(paths))
 print("Agenda: " + str(agenda))
 
-graphic_map = graphic(map.map_itself, map.map_size, paths, agenda)
+# Desenha a resposta do algoritmo
+graphic_map_2 = graphic(map.map_itself, map.map_size, paths, agenda)
