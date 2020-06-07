@@ -1,17 +1,18 @@
-from tkinter import *
+import tkinter as tk
 import numpy
 
 
+# Classe para desenhar os resultados de um algoritmo no tabuleiro montado na janela
 class graphic:
-    def __init__(self, map, map_size, paths, agenda):
+    def __init__(self, map, map_size, paths, agenda, root):
 
         map_prop = map_size[0]/map_size[1]
 
-        root = Tk()
-        dims = Canvas(root, width=520, height=520*map_prop)
-        dims.pack()
+        self.root = root
+        self.dims = tk.Canvas(self.root, width=520, height=520*map_prop)
+        self.dims.pack()
 
-        dims.create_rectangle(10, 10, 510, 510*map_prop, fill="white")
+        self.dims.create_rectangle(10, 10, 510, 510*map_prop, fill="white")
 
         square_side = 500/map_size[1]
 
@@ -28,17 +29,20 @@ class graphic:
             for i in range(map_size[0]):
 
                 if map[i][j] == '*':
-                    dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="white")
+                    self.dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="white")
+                    self.dims.pack()
                 elif map[i][j] == '#':
-                    dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="blue")
+                    self.dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="blue")
+                    self.dims.pack()
                 elif map[i][j] == '$':
-                    dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="green")
+                    self.dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="green")
+                    self.dims.pack()
                 else:
-                    dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="gray")
+                    self.dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="gray")
+                    self.dims.pack()
 
                 # Verifica se a coordenada está no primeiro caminho completo
                 for k in range(1, len(final_path)):
                     if final_path[k] == [i, j]:
-                        dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="red")
-
-        root.mainloop()
+                        self.dims.create_rectangle(10 + j*square_side, 10 + i*square_side, 10 + (j+1)*square_side, 10 + (i+1)*square_side, fill="red")
+                        self.dims.pack()
