@@ -1,51 +1,54 @@
-
-# Função que, dada uma direção, retorna um ponto do grafo se ele existir,
-# caminhando a partir do ponto atual
-
+# Função que, dada uma direção, retorna um ponto do grafo se ele existir, caminhando a partir do ponto atual
 def lin_verif_4(pos, g, map, map_size, i, j, end):
 
-    # Calculo do limite do for baseado na direção da analise
+    # Calculo do limite superior do for, a fim de não estourar o mapa, dado o ponto inicial e direção
     upper_limit = int(map_size[0]*i*(1+i)/2 + map_size[1]*j*(1+j)/2 + (-i)*pos[0] + (-j)*pos[1] + 1*(1-i)*(1-j)/2)
-    #print(">> " + str(upper_limit))
     for k in range(1, upper_limit):
 
-        if map[pos[0] + i*k][pos[1] + j*k] == '*':
-            #print("[" + str(pos[0] + i*k) + ", " + str(pos[1] + j*k) + "]")0
+        if map[pos[0] + i*k][pos[1] + j*k] == '*': # Verifica se o ponto atual é caminho válido
+
+            # Verifica se o ponto não está em uma linha ou coluna extrema e caminhando do sentido da respectiva (logo, precisando verificar os dois lados do char do caminho)
             if ((abs(j)*pos[0] + abs(i)*pos[1] > 0) & (abs(j)*pos[0] + abs(i)*pos[1] < abs(j)*map_size[0] + abs(i)*map_size[1] - 1)):
-                #print("Situação 1")
-                #print(" >> [" + str(pos[0] + k*i - 1*abs(j)) + ", " + str(pos[1] + k*j - 1*abs(i)) + "]")
-                #print(" >> [" + str(pos[0] + k*i + 1*abs(j)) + ", " + str(pos[1] + k*j + 1*abs(i)) + "]")
+
+                # Verifica os dois lados do char analizado, k posições na direção dada do ponto inicial da analise
                 if ((map[pos[0] + k*i - 1*abs(j)][pos[1] + k*j - 1*abs(i)] != '-') | (map[pos[0] + k*i + 1*abs(j)][pos[1] + k*j + 1*abs(i)] != '-')):
-                    #print("PONTO ENCONTRADO")
-                    manh_dist = abs(pos[0] + i*k - end[0]) + abs(pos[1] + j*k - end[1])
-                    return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist]
-                    #break
 
+                    # Calcula a distancia de manhattan do ponto obtido como novo no grafo até o objetivo
+                    manh_dist = abs(pos[0] + i*k - end[0]) + abs(pos[1] + j*k - end[1])
+                    return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist] # Retorna as coordenadas do ponto de grafo encontrado com os seus pesos
+
+            # Verifica se o ponto está na linha superior ou coluna à esquerda, caminhando do sentido da respectiva
             if abs(j)*pos[0] + abs(i)*pos[1] == 0:
-                #print("Situação 2")
-                #print(" >> [" + str(pos[0] + k*i + 1*abs(j)) + ", " + str(pos[1] + k*j + 1*abs(i)) + "]")
-                if map[pos[0] + k*i + 1*abs(j)][pos[1] + k*j + 1*abs(i)] != '-':
-                    #print("PONTO ENCONTRADO")
-                    manh_dist = abs(pos[0] + i*k - end[0]) + abs(pos[1] + j*k - end[1])
-                    return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist]
-                    #break
 
-            if abs(j)*pos[0] + abs(i)*pos[1] == abs(j)*map_size[0] + abs(i)*map_size[1] - 1:
-                #print("Situação 3")
-                #print(" >> [" + str(pos[0] + k*i - 1*abs(j)) + ", " + str(pos[1] + k*j - 1*abs(i)) + "]")
-                if map[pos[0] + k*i - 1*abs(j)][pos[1] + k*j - 1*abs(i)] != '-':
-                    #print("PONTO ENCONTRADO")
+                #Verifica apenas um lado do char analizado, k posições na direção dada do ponto inicial da analise
+                if map[pos[0] + k*i + 1*abs(j)][pos[1] + k*j + 1*abs(i)] != '-':
+
+                    # Calcula a distancia de manhattan do ponto obtido como novo no grafo até o objetivo
                     manh_dist = abs(pos[0] + i*k - end[0]) + abs(pos[1] + j*k - end[1])
-                    return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist]
-                    #break
+                    return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist] # Retorna as coordenadas do ponto de grafo encontrado com os seus pesos
+
+            # Verifica se o ponto está na linha inferior ou coluna à direita, caminhando do sentido da respectiva
+            if abs(j)*pos[0] + abs(i)*pos[1] == abs(j)*map_size[0] + abs(i)*map_size[1] - 1:
+
+                #Verifica apenas um lado do char analizado, k posições na direção dada do ponto inicial da analise
+                if map[pos[0] + k*i - 1*abs(j)][pos[1] + k*j - 1*abs(i)] != '-':
+
+                    # Calcula a distancia de manhattan do ponto obtido como novo no grafo até o objetivo
+                    manh_dist = abs(pos[0] + i*k - end[0]) + abs(pos[1] + j*k - end[1])
+                    return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist] # Retorna as coordenadas do ponto de grafo encontrado com os seus pesos
+
+            # Verifica se o próximo ponto a ser analisado está fora do map (casos de caminho sem saída)
             if abs(i)*pos[0] + abs(j)*pos[1] + i*k + j*k - 1 < 0:
-                #print("Ponto extremo encontrado")
+
+                # Calcula a distancia de manhattan do ponto obtido como novo no grafo até o objetivo
                 manh_dist = abs(pos[0] + i*k - end[0]) + abs(pos[1] + j*k - end[1])
-                return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist]
-        elif map[pos[0] + i*k][pos[1] + j*k] == '$':
-            #print("PONTO FINAL ENCONTRADO")
+                return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist] # Retorna as coordenadas do ponto de grafo encontrado com os seus pesos
+
+        elif map[pos[0] + i*k][pos[1] + j*k] == '$':    # Verifica se o ponto atual é o ponto objetivo
+
+            # Calcula a distancia de manhattan do ponto obtido como novo no grafo até o objetivo
             manh_dist = abs(pos[0] + i*k - end[0]) + abs(pos[1] + j*k - end[1])
-            return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist]
-            #break
-        else:
-            break
+            return [pos[0] + i*k, pos[1] + j*k, g+k, manh_dist] # Retorna as coordenadas do ponto de grafo encontrado com os seus pesos
+
+        else:       # Se nada é encontrado
+            break   # Sai da verificação
